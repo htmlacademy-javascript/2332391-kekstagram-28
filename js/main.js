@@ -107,5 +107,4 @@ const createObject = function () {
   };
 };
 
-const getArrayOfObjects = Array.from({length: 25}, createObject);
-console.log(getArrayOfObjects);
+// const getArrayOfObjects = Array.from({length: 25}, createObject);
