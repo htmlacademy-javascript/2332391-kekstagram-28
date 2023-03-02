@@ -1,8 +1,12 @@
 const OBJECTS_NUMBER = 25;
-const MIN_LIKES_QUANTITY = 15;
-const MAX_LIKES_QUANTITY = 200;
-const MIN_COMMENTS_QUANTITY = 0;
-const MAX_COMMENTS_QUANTITY = 10;
+const LIKES_QUANTITY = {
+  MIN: 15,
+  MAX: 200
+};
+const COMMENTS_QUANTITY = {
+  MIN: 0,
+  MAX: 10
+};
 const AVATARS_QUANTITY = 6;
 const NAMES = [
   'Chuck',
@@ -60,18 +64,16 @@ const ID_TYPES = {
   'forComments': 'forComments'
 };
 
-const getRandomInteger = function (a, b) {
+const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
 
-const getRandomArrayElement = function (array) {
-  return array[getRandomInteger(0, array.length - 1)];
-};
+const getRandomArrayElement = (array) => array[getRandomInteger(0, array.length - 1)];
 
-const getId = function () {
+const getId = () => {
   let idForId = 0;
   let idForUrl = 0;
   let idForComments = 0;
@@ -93,38 +95,31 @@ const getId = function () {
 
 const generateId = getId();
 
-const ifMergedComments = function () {
-  return Boolean(getRandomInteger(0, 1));
-};
+const getRandomBoulean = () => Boolean(getRandomInteger(0, 1));
 
-const createMessage = function () {
-  if (!ifMergedComments()) {
+
+const createMessage = () => {
+  if (!getRandomBoulean()) {
     return getRandomArrayElement(MESSAGES);
   }
-  return `${getRandomArrayElement(MESSAGES)} ${getRandomArrayElement(MESSAGES)}}`;
+  return `${getRandomArrayElement(MESSAGES)} ${getRandomArrayElement(MESSAGES)}`;
 };
 
-const createComment = function () {
-  return {
-    id: generateId(ID_TYPES.forComments),
-    avatar: `img/avatar-${getRandomInteger(1, AVATARS_QUANTITY)}.svg`,
-    message: createMessage(),
-    name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`
-  };
-};
+const createComment = () => ({
+  id: generateId(ID_TYPES.forComments),
+  avatar: `img/avatar-${getRandomInteger(1, AVATARS_QUANTITY)}.svg`,
+  message: createMessage(),
+  name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`});
 
-const createObject = function () {
-  return {
-    name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
-    description: getRandomArrayElement(DESCRIPTIONS),
-    likes: getRandomInteger(MIN_LIKES_QUANTITY, MAX_LIKES_QUANTITY),
-    id: generateId(ID_TYPES.forId),
-    url: `photos/${generateId(ID_TYPES.forUrl)}.jpg`,
-    comments: Array.from({length: getRandomInteger(MIN_COMMENTS_QUANTITY, MAX_COMMENTS_QUANTITY)}, createComment)
-  };
-};
+const createPictureData = () => ({
+  name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomInteger(LIKES_QUANTITY.MIN, LIKES_QUANTITY.MAX),
+  id: generateId(ID_TYPES.forId),
+  url: `photos/${generateId(ID_TYPES.forUrl)}.jpg`,
+  comments: Array.from({length: getRandomInteger(COMMENTS_QUANTITY.MIN, COMMENTS_QUANTITY.MAX)}, createComment)
+});
 
-const getArrayOfObjects = function () {
-  return Array.from({length: OBJECTS_NUMBER}, createObject);
-};
-getArrayOfObjects();
+const getArrayOfPicturesData = () => Array.from({ length: OBJECTS_NUMBER }, createPictureData);
+
+getArrayOfPicturesData();
