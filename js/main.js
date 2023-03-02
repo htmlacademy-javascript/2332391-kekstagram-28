@@ -125,7 +125,6 @@ const createObject = function () {
 };
 
 const getArrayOfObjects = function () {
-  console.log(Array.from({length: OBJECTS_NUMBER}, createObject));
   return Array.from({length: OBJECTS_NUMBER}, createObject);
 };
 getArrayOfObjects();
