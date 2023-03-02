@@ -1,3 +1,9 @@
+const OBJECTS_NUMBER = 25;
+const MIN_LIKES_QUANTITY = 15;
+const MAX_LIKES_QUANTITY = 200;
+const MIN_COMMENTS_QUANTITY = 0;
+const MAX_COMMENTS_QUANTITY = 10;
+const AVATARS_QUANTITY = 6;
 const NAMES = [
   'Chuck',
   'Alex',
@@ -87,11 +93,22 @@ const getId = function () {
 
 const generateId = getId();
 
+const ifMergedComments = function () {
+  return Boolean(getRandomInteger(0, 1));
+};
+
+const createMessage = function () {
+  if (!ifMergedComments()) {
+    return getRandomArrayElement(MESSAGES);
+  }
+  return `${getRandomArrayElement(MESSAGES)} ${getRandomArrayElement(MESSAGES)}}`;
+};
+
 const createComment = function () {
   return {
     id: generateId(ID_TYPES.forComments),
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    message: getRandomArrayElement(MESSAGES),
+    avatar: `img/avatar-${getRandomInteger(1, AVATARS_QUANTITY)}.svg`,
+    message: createMessage(),
     name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`
   };
 };
@@ -100,14 +117,14 @@ const createObject = function () {
   return {
     name: `${getRandomArrayElement(NAMES)} ${getRandomArrayElement(SURNAMES)}`,
     description: getRandomArrayElement(DESCRIPTIONS),
-    likes: getRandomInteger(15, 200),
+    likes: getRandomInteger(MIN_LIKES_QUANTITY, MAX_LIKES_QUANTITY),
     id: generateId(ID_TYPES.forId),
     url: `photos/${generateId(ID_TYPES.forUrl)}.jpg`,
-    comments: Array.from({length: getRandomInteger(1,3)}, createComment)
+    comments: Array.from({length: getRandomInteger(MIN_COMMENTS_QUANTITY, MAX_COMMENTS_QUANTITY)}, createComment)
   };
 };
 
 const getArrayOfObjects = function () {
-  return Array.from({length: 25}, createObject);
+  return Array.from({length: OBJECTS_NUMBER}, createObject);
 };
 getArrayOfObjects();
