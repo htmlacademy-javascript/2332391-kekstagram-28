@@ -1,3 +1,1 @@
-import { getArrayOfPicturesData } from './data.js';
-
-getArrayOfPicturesData();
+import './rendering.js';
