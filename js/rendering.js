@@ -20,9 +20,13 @@ const createPicture = (data) => {
   return newPicture;
 };
 
-picturesData.forEach((elem) => {
-  const newPicture = createPicture(elem);
-  picturesFragment.append(newPicture);
-});
+const renderPictures = () => {
+  picturesData.forEach((elem) => {
+    const newPicture = createPicture(elem);
+    picturesFragment.append(newPicture);
+  });
 
-picturesContainer.append(picturesFragment);
+  picturesContainer.append(picturesFragment);
+};
+
+export { renderPictures };

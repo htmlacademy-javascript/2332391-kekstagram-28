@@ -37,4 +37,16 @@ const generateId = getId();
 
 const getRandomBoulean = () => Boolean(getRandomInteger(0, 1));
 
-export { getRandomArrayElement, getRandomInteger, generateId, getRandomBoulean, ID_TYPES };
+const isEscPressed = (evt) => evt.key === 'Escape';
+
+const isEnterPressed = (evt) => evt.key === 'Enter';
+
+export {
+  ID_TYPES,
+  getRandomArrayElement,
+  getRandomInteger,
+  generateId,
+  getRandomBoulean,
+  isEnterPressed,
+  isEscPressed
+};
