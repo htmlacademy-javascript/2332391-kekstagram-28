@@ -1,6 +1,4 @@
-import { renderPictures } from './rendering.js';
-import { renderPictureData } from './popup.js';
-import './popupData.js';
+import { renderPictures } from './rendering-small-pictures.js';
+import { getArrayOfPicturesData } from './data.js';
 
-renderPictures();
-
+renderPictures(getArrayOfPicturesData());
