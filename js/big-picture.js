@@ -48,9 +48,9 @@ const renderComments = (comments) => {
   if (comments.length <= COMMENTS_NUMBER) {
     commentLoader.classList.add('hidden');
   } else {
-    commentLoader.addEventListener('click', (comments) => {
+    commentLoader.addEventListener('click', (newComments) => {
       commentsList.innerHTML = '';
-      shownComments = comments.slice(0, COMMENTS_NUMBER + ADD_SHOWN_COMMENTS);
+      shownComments = newComments.slice(0, COMMENTS_NUMBER + ADD_SHOWN_COMMENTS);
       shownComments.forEach((comment) => {
         renderComment(comment);
       });
