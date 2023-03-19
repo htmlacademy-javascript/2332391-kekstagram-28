@@ -7,7 +7,7 @@ const LIKES_QUANTITY = {
 };
 const COMMENTS_QUANTITY = {
   MIN: 0,
-  MAX: 10
+  MAX: 30
 };
 const AVATARS_QUANTITY = 6;
 const NAMES = [
@@ -48,7 +48,12 @@ const DESCRIPTIONS = [
   'Sunflowers on the field on the mountains background',
   'The ship is sinking in the open cea',
   'A lonely stranger in the mountains of Tibet',
-  'The birth of a supernova',
+  'A friend in need is a friend indeed',
+  'The birth of a supernova is the most marvellous natural phenomenon I\'ve ever seen',
+  'Have you ever seen magic? Would you like to see some?',
+  'That \'s better then just a farewell letter',
+  'Nevertheless, we managed to get over that problem',
+  'You should have noticed it in the very beginning!',
 ];
 
 const MESSAGES = [

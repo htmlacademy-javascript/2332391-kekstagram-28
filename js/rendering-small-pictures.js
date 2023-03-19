@@ -5,6 +5,7 @@ const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesData = getArrayOfPicturesData();
 
+
 const picturesFragment = document.createDocumentFragment();
 
 const createPicture = (data) => {
