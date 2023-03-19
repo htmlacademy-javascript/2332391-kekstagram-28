@@ -1,9 +1,10 @@
 import { getArrayOfPicturesData } from './data.js';
-import { showBigImage } from './big-picture.js';
+import { showBigImage, renderComments } from './big-picture.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesData = getArrayOfPicturesData();
+
 
 const picturesFragment = document.createDocumentFragment();
 
