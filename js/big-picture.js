@@ -75,7 +75,6 @@ const destructurizePictureDetails = ({ url, likes, description, comments }) => {
   bigPicture.querySelector('.social__caption').textContent = description;
 
   renderComments(comments);
-  console.log(comments);
 };
 
 const showBigImage = (data) => {
