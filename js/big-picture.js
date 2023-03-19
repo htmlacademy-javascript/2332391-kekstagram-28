@@ -41,23 +41,34 @@ const renderComments = (comments) => {
   comments.forEach((comment) => {
     createComment(comment);
   });
+  loadMoreComments(comments);
+};
+
+const loadMoreComments = (comments) => {
   let shownComments = comments.slice(0, COMMENTS_NUMBER);
+  let updatedShownComments = shownComments.length;
   shownComments.forEach((comment) => {
     renderComment(comment);
   });
   if (comments.length <= COMMENTS_NUMBER) {
     commentLoader.classList.add('hidden');
   } else {
-    commentLoader.addEventListener('click', (newComments) => {
+    commentLoader.addEventListener('click', () => {
       commentsList.innerHTML = '';
-      shownComments = newComments.slice(0, COMMENTS_NUMBER + ADD_SHOWN_COMMENTS);
+      shownComments = comments.slice(0, COMMENTS_NUMBER + ADD_SHOWN_COMMENTS);
+      updatedShownComments += ADD_SHOWN_COMMENTS;
+      if (updatedShownComments >= comments.length) {
+        updatedShownComments = comments.length;
+        commentLoader.classList.add('hidden');
+      }
       shownComments.forEach((comment) => {
         renderComment(comment);
       });
+      commentsNumberBlock.textContent = `
+  ${updatedShownComments} из ${comments.length} комментариев
+  `;
     });
   }
-
-
   commentsNumberBlock.textContent = `
   ${shownComments.length} из ${comments.length} комментариев
   `;
@@ -71,7 +82,6 @@ const destructurizePictureDetails = ({ url, likes, description, comments }) => {
   bigPicture.querySelector('.big-picture__img img').src = url;
   bigPicture.querySelector('.big-picture__img img').alt = description;
   bigPicture.querySelector('.likes-count').textContent = likes;
-  // bigPicture.querySelector('.comments-count').textContent = comments.length;
   bigPicture.querySelector('.social__caption').textContent = description;
 
   renderComments(comments);
@@ -92,8 +102,8 @@ const showBigImage = (data) => {
 const hideBigImage = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
-
   document.removeEventListener('keydown', onPopupEscKeydown);
+  // commentLoader.removeEventListener('click', onLoadMoreClick);
 };
 
 const onPopupEscKeydown = (evt) => {

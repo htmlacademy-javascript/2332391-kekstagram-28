@@ -7,7 +7,7 @@ const LIKES_QUANTITY = {
 };
 const COMMENTS_QUANTITY = {
   MIN: 0,
-  MAX: 10
+  MAX: 20
 };
 const AVATARS_QUANTITY = 6;
 const NAMES = [
