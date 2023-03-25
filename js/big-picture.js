@@ -6,7 +6,10 @@ const EXTRA_COMMENTS_NUMBER = 5;
 const commentsList = document.querySelector('.social__comments');
 const commentLoader = document.querySelector('.social__comments-loader');
 const commentsNumberBlock = document.querySelector('.social__comment-count');
-let accumulator = COMMENTS_NUMBER;
+const bigPicture = document.querySelector('.big-picture');
+const bigImageCrossButton = document.querySelector('.big-picture__cancel');
+const body = document.querySelector('body');
+let commentsAccumulator = COMMENTS_NUMBER;
 let pictureComments;
 
 const createComment = (comment) => {
@@ -58,10 +61,10 @@ const loadMoreComments = (comments) => {
     commentLoader.classList.add('hidden');
   } else {
     commentLoader.addEventListener('click', onLoadMoreClick);
-    commentsNumberBlock.textContent = `
+  }
+  commentsNumberBlock.textContent = `
   ${shownComments.length} из ${comments.length} комментариев
   `;
-  }
 };
 
 const onLoadMoreClick = (evt) => {
@@ -69,8 +72,8 @@ const onLoadMoreClick = (evt) => {
 
   let shownComments = pictureComments.slice(0, COMMENTS_NUMBER);
   commentsList.innerHTML = '';
-  shownComments = pictureComments.slice(0, accumulator + EXTRA_COMMENTS_NUMBER);
-  accumulator += EXTRA_COMMENTS_NUMBER;
+  shownComments = pictureComments.slice(0, commentsAccumulator + EXTRA_COMMENTS_NUMBER);
+  commentsAccumulator += EXTRA_COMMENTS_NUMBER;
   shownComments.forEach((comment) => {
     renderComment(comment);
   });
@@ -82,10 +85,6 @@ const onLoadMoreClick = (evt) => {
   ${shownComments.length} из ${pictureComments.length} комментариев
   `;
 };
-
-const bigPicture = document.querySelector('.big-picture');
-const bigImageCrossButton = document.querySelector('.big-picture__cancel');
-const body = document.querySelector('body');
 
 const destructurizePictureDetails = ({ url, likes, description, comments }) => {
   bigPicture.querySelector('.big-picture__img img').src = url;
@@ -112,7 +111,7 @@ const hideBigImage = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscKeydown);
-  accumulator = COMMENTS_NUMBER;
+  commentsAccumulator = COMMENTS_NUMBER;
   commentLoader.removeEventListener('click', onLoadMoreClick);
 };
 
@@ -123,4 +122,4 @@ const onPopupEscKeydown = (evt) => {
   }
 };
 
-export { showBigImage, renderComments };
+export { showBigImage, onPopupEscKeydown, renderComments };
