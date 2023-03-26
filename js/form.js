@@ -1,9 +1,13 @@
 /* eslint-disable no-use-before-define */
+import { resetScale, setScaleEventListeners } from './scale.js';
+import { resetEffects } from './effects.js';
+
 
 const body = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadCloseButton = document.querySelector('.img-upload__cancel');
 const uploadInput = document.querySelector('.img-upload__input');
+const uploadSubmit = document.querySelector('.img-upload__submit');
 const form = document.querySelector('.img-upload__form');
 const hashtagsField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
@@ -40,9 +44,10 @@ pristine.addValidator(
   HASHTAG_ERROR_MESSAGE
 );
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
+const onFormSubmit = () => {
+  // evt.preventDefault();
   pristine.validate();
+  uploadSubmit.disabled = true;
 };
 
 const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
@@ -60,10 +65,14 @@ const showModal = () => {
   body.classList.add('modal-open');
   document.addEventListener('keydown', onFormEscKeydown);
   uploadCloseButton.addEventListener('click', hideModal);
+  setScaleEventListeners();
 };
 
 const hideModal = () => {
   form.reset();
+  pristine.reset();
+  resetEffects();
+  resetScale();
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onFormEscKeydown);
