@@ -1,10 +1,7 @@
-import { getData } from './api.js';
 import { showBigImage } from './big-picture.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const picturesData = await getData();
-
 const picturesFragment = document.createDocumentFragment();
 
 const createPicture = (data) => {
@@ -19,7 +16,7 @@ const createPicture = (data) => {
   return newPicture;
 };
 
-const renderPictures = () => {
+async function renderPictures (picturesData) {
   picturesData.forEach((elem) => {
     const newPicture = createPicture(elem);
     picturesFragment.append(newPicture);
@@ -37,6 +34,6 @@ const renderPictures = () => {
     );
     showBigImage(matchedPicture);
   });
-};
+}
 
 export { renderPictures };
