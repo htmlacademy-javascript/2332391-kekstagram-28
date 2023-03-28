@@ -2,7 +2,6 @@
 import { resetScale, setScaleEventListeners } from './scale.js';
 import { resetEffects } from './effects.js';
 
-const MAX_COMMENT_LENGTH = 140;
 const body = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadCloseButton = document.querySelector('.img-upload__cancel');
@@ -18,16 +17,6 @@ const pristine = new Pristine (form, {
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper__error'
 });
-
-const validateComment = (thisComment) => {
-  if (!thisComment) {
-    return true;
-  }
-  if (thisComment.length > MAX_COMMENT_LENGTH) {
-    return false;
-  }
-  return true;
-};
 
 const HASHTAG_SYMBOLS_CHECK = /^#[a-zа-яё0-9]{1,19}$/i;
 
