@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 import { resetScale, setScaleEventListeners } from './scale.js';
 import { resetEffects } from './effects.js';
+import { sendData } from './api.js';
 
 const body = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -48,7 +49,9 @@ const onFormSubmit = (evt) => {
   if (! pristine.validate(hashtagsField) || ! pristine.validate(commentField)) {
     return;
   }
+  sendData(new FormData(evt.target));
   uploadSubmit.disabled = true;
+  hideModal();
 };
 
 const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
@@ -73,6 +76,7 @@ const hideModal = () => {
   pristine.reset();
   resetEffects();
   resetScale();
+  uploadSubmit.disabled = false;
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onFormEscKeydown);
