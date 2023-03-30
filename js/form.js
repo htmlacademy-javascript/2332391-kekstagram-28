@@ -2,6 +2,8 @@
 import { resetScale, setScaleEventListeners } from './scale.js';
 import { resetEffects } from './effects.js';
 import { sendData } from './api.js';
+import { showErrorModal, showSuccessModal } from './api.js';
+
 
 const body = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -49,9 +51,11 @@ const onFormSubmit = (evt) => {
   if (! pristine.validate(hashtagsField) || ! pristine.validate(commentField)) {
     return;
   }
-  sendData(new FormData(evt.target));
+  sendData(new FormData(evt.target))
+    .then(showSuccessModal)
+    .then(hideModal())
+    .catch(showErrorModal);
   uploadSubmit.disabled = true;
-  hideModal();
 };
 
 const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
@@ -69,6 +73,7 @@ const showModal = () => {
   document.addEventListener('keydown', onFormEscKeydown);
   uploadCloseButton.addEventListener('click', hideModal);
   setScaleEventListeners();
+  uploadSubmit.disabled = false;
 };
 
 const hideModal = () => {
@@ -88,7 +93,6 @@ const onUploadInputChange = () => {
 
 const setFormEventListeners = () => {
   uploadInput.addEventListener('change', onUploadInputChange);
-
   form.addEventListener('submit', onFormSubmit);
 };
 
