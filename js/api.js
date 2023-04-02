@@ -33,6 +33,7 @@ const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POS
 
 const successModal = document.querySelector('#success').content.querySelector('.success');
 const errorModal = document.querySelector('#error').content.querySelector('.error');
+const uploadSubmit = document.querySelector('.img-upload__submit');
 
 const showSuccessModal = () => {
   const modal = successModal.cloneNode(true);
@@ -58,6 +59,7 @@ const hideSuccessModal = () => {
 const hideErrorModal = () => {
   const modal = document.querySelector('.error');
   modal.remove();
+  uploadSubmit.disabled = false;
 };
 
 const onErrorModalEscKeydown = (evt) => {

@@ -51,12 +51,18 @@ const onFormSubmit = (evt) => {
   if (! pristine.validate(hashtagsField) || ! pristine.validate(commentField)) {
     return;
   }
+  uploadSubmit.disabled = true;
   sendData(new FormData(evt.target))
     .then(showSuccessModal)
-    .then(hideModal())
-    .catch(showErrorModal);
-  uploadSubmit.disabled = true;
+    .then(hideModal)
+    .catch(showErrorModal)
+    .catch(disable);
 };
+
+const disable = () => {
+  uploadSubmit.disabled = false;
+};
+
 
 const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
 
@@ -81,7 +87,7 @@ const hideModal = () => {
   pristine.reset();
   resetEffects();
   resetScale();
-  uploadSubmit.disabled = false;
+  // uploadSubmit.disabled = false;
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onFormEscKeydown);
