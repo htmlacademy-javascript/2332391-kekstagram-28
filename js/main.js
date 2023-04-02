@@ -1,13 +1,6 @@
-import { renderPictures } from './rendering-small-pictures.js';
 import { setFormEventListeners } from './form.js';
-import { getData } from './api.js';
-import { showAlert } from './util.js';
+import { setSortButtonsEventListeners, renderDefaultPictures } from './sort.js';
 
-try {
-  const data = await getData();
-  renderPictures(data);
-} catch (err) {
-  showAlert(err.message);
-}
-
+renderDefaultPictures();
 setFormEventListeners();
+setSortButtonsEventListeners();

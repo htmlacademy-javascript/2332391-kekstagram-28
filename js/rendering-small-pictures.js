@@ -17,6 +17,8 @@ const createPicture = (data) => {
 };
 
 async function renderPictures (picturesData) {
+  const pictures = document.querySelectorAll('.pictures .picture');
+  pictures.forEach((picture) => picture.remove());
   picturesData.forEach((elem) => {
     const newPicture = createPicture(elem);
     picturesFragment.append(newPicture);
