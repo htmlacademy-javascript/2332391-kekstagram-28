@@ -1,6 +1,8 @@
 /* eslint-disable no-use-before-define */
 import { resetScale, setScaleEventListeners } from './scale.js';
 import { resetEffects } from './effects.js';
+import { sendData } from './api.js';
+import { showErrorModal, showSuccessModal } from './api.js';
 
 
 const body = document.querySelector('body');
@@ -44,14 +46,25 @@ pristine.addValidator(
   HASHTAG_ERROR_MESSAGE
 );
 
-const onFormSubmit = () => {
-  // evt.preventDefault();
-  pristine.validate();
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  if (! pristine.validate(hashtagsField) || ! pristine.validate(commentField)) {
+    return;
+  }
   uploadSubmit.disabled = true;
+  sendData(new FormData(evt.target))
+    .then(showSuccessModal)
+    .then(hideModal)
+    .catch(showErrorModal)
+    .catch(disable);
 };
 
-const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
+const disable = () => {
+  uploadSubmit.disabled = false;
+};
 
+
+const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
 
 const onFormEscKeydown = (evt) => {
   if(evt.key === 'Escape' && !isTextFieldFocused()) {
@@ -66,6 +79,7 @@ const showModal = () => {
   document.addEventListener('keydown', onFormEscKeydown);
   uploadCloseButton.addEventListener('click', hideModal);
   setScaleEventListeners();
+  uploadSubmit.disabled = false;
 };
 
 const hideModal = () => {
@@ -73,6 +87,7 @@ const hideModal = () => {
   pristine.reset();
   resetEffects();
   resetScale();
+  // uploadSubmit.disabled = false;
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onFormEscKeydown);
@@ -84,7 +99,6 @@ const onUploadInputChange = () => {
 
 const setFormEventListeners = () => {
   uploadInput.addEventListener('change', onUploadInputChange);
-
   form.addEventListener('submit', onFormSubmit);
 };
 
