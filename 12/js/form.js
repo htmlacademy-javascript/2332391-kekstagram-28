@@ -1,9 +1,7 @@
 /* eslint-disable no-use-before-define */
 import { resetScale, setScaleEventListeners } from './scale.js';
-import { resetEffects } from './effects.js';
-import { sendData } from './api.js';
-import { showErrorModal, showSuccessModal } from './api.js';
-
+import { resetEffects, hideSlider } from './effects.js';
+import { showErrorModal, showSuccessModal, sendData } from './api.js';
 
 const body = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -16,6 +14,7 @@ const commentField = document.querySelector('.text__description');
 const imagePreview = document.querySelector('.img-upload__preview img');
 const effectsList = document.querySelector('.effects__list');
 const effectsItems = effectsList.querySelectorAll('.effects__preview');
+
 const HASHTAG_ERROR_MESSAGE = 'Неправильно заполнено поле хэштэгов!';
 
 const pristine = new Pristine (form, {
@@ -66,11 +65,11 @@ const disable = () => {
   uploadSubmit.disabled = false;
 };
 
-
 const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
 
 const onFormEscKeydown = (evt) => {
-  if(evt.key === 'Escape' && !isTextFieldFocused()) {
+  const errorModal = document.querySelector('.error');
+  if(evt.key === 'Escape' && ! isTextFieldFocused() && errorModal.classList.contains('hidden')) {
     evt.preventDefault();
     hideModal();
   }
@@ -90,6 +89,7 @@ const hideModal = () => {
   pristine.reset();
   resetEffects();
   resetScale();
+  hideSlider();
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onFormEscKeydown);
@@ -104,7 +104,6 @@ const changeImapePreview = () => {
 };
 
 const changeEffectsItems = () => {
-
 };
 
 const onUploadInputChange = () => {

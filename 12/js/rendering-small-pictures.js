@@ -1,4 +1,5 @@
 import { showBigImage } from './big-picture.js';
+import { picturesData } from './api.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -16,26 +17,26 @@ const createPicture = (data) => {
   return newPicture;
 };
 
-async function renderPictures (picturesData) {
+const showMatchedPicture = (evt) => {
+  const thumbnail = evt.target.closest('[data-picture-id]');
+  if (!thumbnail) {
+    return;
+  }
+  const matchedPicture = picturesData.find(
+    (elem) => elem.id === +thumbnail.dataset.pictureId
+  );
+  showBigImage(matchedPicture);
+};
+
+const renderPictures = (data) => {
   const pictures = document.querySelectorAll('.pictures .picture');
   pictures.forEach((picture) => picture.remove());
-  picturesData.forEach((elem) => {
+  data.forEach((elem) => {
     const newPicture = createPicture(elem);
     picturesFragment.append(newPicture);
   });
-
   picturesContainer.append(picturesFragment);
+  picturesContainer.addEventListener('click', showMatchedPicture);
+};
 
-  picturesContainer.addEventListener('click', (evt) => {
-    const thumbnail = evt.target.closest('[data-picture-id]');
-    if (!thumbnail) {
-      return;
-    }
-    const matchedPicture = picturesData.find(
-      (elem) => elem.id === +thumbnail.dataset.pictureId
-    );
-    showBigImage(matchedPicture);
-  });
-}
-
-export { renderPictures };
+export { renderPictures, showMatchedPicture };

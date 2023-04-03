@@ -123,4 +123,4 @@ const resetEffects = () => {
   updateSlider();
 };
 
-export { resetEffects };
+export { resetEffects, hideSlider };
