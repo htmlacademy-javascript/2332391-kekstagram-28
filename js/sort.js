@@ -10,7 +10,7 @@ const sortButtons = document.querySelectorAll('.img-filters__button');
 const imageSortButtonsSection = document.querySelector('.img-filters');
 
 
-function getRandomPictures () {
+const getRandomPictures = () => {
   const randomPictures = [];
   const randomIndexes = [];
 
@@ -23,7 +23,7 @@ function getRandomPictures () {
     randomIndexes.push(currentIndex);
   }
   return randomPictures;
-}
+};
 
 const renderDefaultPictures = () => {
   try {
@@ -35,10 +35,10 @@ const renderDefaultPictures = () => {
   }
 };
 
-function getSortedByCommentsPictures () {
+const getSortedByCommentsPictures = () => {
   const sortedComments = picturesData.slice().sort((a, b) => b.comments.length - a.comments.length);
   return sortedComments;
-}
+};
 
 const activateButton = (button) => {
   button.classList.add('img-filters__button--active');

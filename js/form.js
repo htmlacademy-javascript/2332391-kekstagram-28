@@ -13,6 +13,9 @@ const uploadSubmit = document.querySelector('.img-upload__submit');
 const form = document.querySelector('.img-upload__form');
 const hashtagsField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
+const imagePreview = document.querySelector('.img-upload__preview img');
+const effectsList = document.querySelector('.effects__list');
+const effectsItems = effectsList.querySelectorAll('.effects__preview');
 const HASHTAG_ERROR_MESSAGE = 'Неправильно заполнено поле хэштэгов!';
 
 const pristine = new Pristine (form, {
@@ -87,14 +90,27 @@ const hideModal = () => {
   pristine.reset();
   resetEffects();
   resetScale();
-  // uploadSubmit.disabled = false;
   uploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onFormEscKeydown);
 };
 
+const changeImapePreview = () => {
+  const file = uploadInput.files[0];
+  imagePreview.src = URL.createObjectURL(file);
+  effectsItems.forEach((elem) => {
+    elem.style.backgroundImage = `url(${imagePreview.src})`;
+  });
+};
+
+const changeEffectsItems = () => {
+
+};
+
 const onUploadInputChange = () => {
   showModal();
+  changeImapePreview();
+  changeEffectsItems();
 };
 
 const setFormEventListeners = () => {

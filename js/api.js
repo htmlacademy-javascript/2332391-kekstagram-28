@@ -41,6 +41,7 @@ const showSuccessModal = () => {
   const successModalCloseButton = document.querySelector('.success__button');
   successModalCloseButton.addEventListener('click', hideSuccessModal);
   document.addEventListener('keydown', onSuccessModalEscKeydown);
+  document.addEventListener('click', onSuccessBodyClick);
 };
 
 const showErrorModal = () => {
@@ -49,17 +50,20 @@ const showErrorModal = () => {
   const errorModalCloseButton = document.querySelector('.error__button');
   errorModalCloseButton.addEventListener('click', hideErrorModal);
   document.addEventListener('keydown', onErrorModalEscKeydown);
+  document.addEventListener('click', onErrorBodyClick);
 };
 
 const hideSuccessModal = () => {
   const modal = document.querySelector('.success');
   modal.remove();
+  document.removeEventListener('click', onSuccessBodyClick);
 };
 
 const hideErrorModal = () => {
   const modal = document.querySelector('.error');
   modal.remove();
   uploadSubmit.disabled = false;
+  document.removeEventListener('click', onErrorBodyClick);
 };
 
 const onErrorModalEscKeydown = (evt) => {
@@ -73,6 +77,20 @@ const onSuccessModalEscKeydown = (evt) => {
   if (isEscPressed(evt)) {
     evt.preventDefault();
     hideSuccessModal();
+  }
+};
+
+const onSuccessBodyClick = (evt) => {
+  if (! evt.target.classList.contains('success__inner') && ! evt.target.classList.contains('success__title')) {
+    evt.preventDefault();
+    hideSuccessModal();
+  }
+};
+
+const onErrorBodyClick = (evt) => {
+  if (! evt.target.classList.contains('error__inner') && ! evt.target.classList.contains('error__title')) {
+    evt.preventDefault();
+    hideErrorModal();
   }
 };
 
