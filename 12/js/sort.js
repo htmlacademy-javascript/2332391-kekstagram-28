@@ -1,4 +1,4 @@
-import { getRandomInteger, showAlert, debounce } from './util.js';
+import { getRandomInteger, debounce } from './util.js';
 import { renderPictures, showMatchedPicture } from './rendering-small-pictures.js';
 import { picturesData } from './api.js';
 
@@ -45,7 +45,7 @@ const renderDefaultPictures = () => {
     const sortingButtonsSection = document.querySelector('.img-filters');
     sortingButtonsSection.classList.remove('img-filters--inactive');
   } catch (err) {
-    showAlert(err.message);
+    return true;
   }
 };
 
@@ -64,6 +64,7 @@ const renderFilteredPictures = () => {
   } else {
     renderDefaultPictures();
   }
+
 };
 
 const debouncePicturesRendering = debounce(renderFilteredPictures, RERENDER_DELAY);

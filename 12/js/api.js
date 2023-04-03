@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { isEscPressed } from './util.js';
+import { isEscPressed, showAlert } from './util.js';
 
 const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
 const Route = {
@@ -27,7 +27,7 @@ const load = (route, errorText, method = Method.GET, body = null) =>
       throw new Error (errorText);
     });
 
-const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
+const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA).catch((err) => showAlert(err));
 
 const sendData = (body) => load(Route.SEND_DATA, ErrorText.SEND_DATA, Method.POST, body);
 
@@ -109,6 +109,14 @@ const onErrorBodyClick = (evt) => {
 createSuccessModal();
 createErrorModal();
 
-const picturesData = await getData();
+const getPicturesData = async () => {
+  try {
+    return await getData();
+  } catch (err) {
+    showAlert(err);
+  }
+};
+
+const picturesData = await getPicturesData();
 
 export { getData, sendData, showSuccessModal, showErrorModal, picturesData };
