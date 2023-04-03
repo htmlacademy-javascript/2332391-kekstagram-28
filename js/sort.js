@@ -1,14 +1,13 @@
-import { getData } from './api.js';
 import { getRandomInteger, showAlert, debounce } from './util.js';
-import { renderPictures } from './rendering-small-pictures.js';
+import { renderPictures, showMatchedPicture } from './rendering-small-pictures.js';
+import { picturesData } from './api.js';
 
 const RANDOM_PICTURES_NUMBER = 10;
 const RERENDER_DELAY = 500;
 
-const picturesData = await getData();
 const sortButtons = document.querySelectorAll('.img-filters__button');
 const imageSortButtonsSection = document.querySelector('.img-filters');
-
+const picturesContainer = document.querySelector('.pictures');
 
 const getRandomPictures = () => {
   const randomPictures = [];
@@ -23,16 +22,6 @@ const getRandomPictures = () => {
     randomIndexes.push(currentIndex);
   }
   return randomPictures;
-};
-
-const renderDefaultPictures = () => {
-  try {
-    renderPictures(picturesData);
-    const sortingButtonsSection = document.querySelector('.img-filters');
-    sortingButtonsSection.classList.remove('img-filters--inactive');
-  } catch (err) {
-    showAlert(err.message);
-  }
 };
 
 const getSortedByCommentsPictures = () => {
@@ -50,15 +39,30 @@ const inactivateButtons = () => {
   });
 };
 
+const renderDefaultPictures = () => {
+  try {
+    renderPictures(picturesData);
+    const sortingButtonsSection = document.querySelector('.img-filters');
+    sortingButtonsSection.classList.remove('img-filters--inactive');
+  } catch (err) {
+    showAlert(err.message);
+  }
+};
+
+const removeSmallPicturesEventListeners = () => {
+  picturesContainer.removeEventListener('click', showMatchedPicture);
+};
+
 const renderFilteredPictures = () => {
   const activeSortButtonId = document.querySelector('.img-filters__button--active').id;
+  removeSmallPicturesEventListeners();
 
   if (activeSortButtonId === 'filter-random') {
     renderPictures(getRandomPictures());
   } else if (activeSortButtonId === 'filter-discussed') {
     renderPictures(getSortedByCommentsPictures());
   } else {
-    renderPictures(picturesData);
+    renderDefaultPictures();
   }
 };
 
