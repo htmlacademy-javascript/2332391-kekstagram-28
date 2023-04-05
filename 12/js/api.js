@@ -109,14 +109,4 @@ const onErrorBodyClick = (evt) => {
 createSuccessModal();
 createErrorModal();
 
-const getPicturesData = async () => {
-  try {
-    return await getData();
-  } catch (err) {
-    showAlert(err);
-  }
-};
-
-const picturesData = await getPicturesData();
-
-export { getData, sendData, showSuccessModal, showErrorModal, picturesData };
+export { getData, sendData, showSuccessModal, showErrorModal };
