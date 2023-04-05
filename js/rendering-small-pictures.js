@@ -1,5 +1,6 @@
 import { showBigImage } from './big-picture.js';
-import { picturesData } from './api.js';
+//вот это надо убрать, данные передаём в main и там отрисовываем
+import { picturesData } from './get-data.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -29,6 +30,9 @@ const showMatchedPicture = (evt) => {
 };
 
 const renderPictures = (data) => {
+  if (!data) {
+    return;
+  }
   const pictures = document.querySelectorAll('.pictures .picture');
   pictures.forEach((picture) => picture.remove());
   data.forEach((elem) => {
@@ -37,6 +41,9 @@ const renderPictures = (data) => {
   });
   picturesContainer.append(picturesFragment);
   picturesContainer.addEventListener('click', showMatchedPicture);
+
+  const sortingButtonsSection = document.querySelector('.img-filters');
+  sortingButtonsSection.classList.remove('img-filters--inactive');
 };
 
 export { renderPictures, showMatchedPicture };

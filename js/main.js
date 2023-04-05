@@ -1,12 +1,7 @@
 import { setFormEventListeners } from './form.js';
-import { setSortButtonsEventListeners, renderDefaultPictures } from './sort.js';
-import { showAlert } from './util.js';
-import { picturesData } from './api.js';
+import { setSortButtonsEventListeners, renderFilteredPictures } from './filter.js';
+import { picturesData } from './get-data.js';
 
-try {
-  renderDefaultPictures(picturesData);
-  setFormEventListeners();
-  setSortButtonsEventListeners();
-} catch (err) {
-  showAlert(err);
-}
+renderFilteredPictures(picturesData);
+setFormEventListeners();
+setSortButtonsEventListeners();

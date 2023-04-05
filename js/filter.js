@@ -1,6 +1,7 @@
-import { getRandomInteger, debounce } from './util.js';
+import { debounce } from './util.js';
 import { renderPictures, showMatchedPicture } from './rendering-small-pictures.js';
-import { picturesData } from './api.js';
+import { getDefaultPictures, getRandomPictures, getSortedByCommentsPictures } from './get-data.js';
+import { picturesData } from './get-data.js';
 
 const RANDOM_PICTURES_NUMBER = 10;
 const RERENDER_DELAY = 500;
@@ -8,26 +9,6 @@ const RERENDER_DELAY = 500;
 const sortButtons = document.querySelectorAll('.img-filters__button');
 const imageSortButtonsSection = document.querySelector('.img-filters');
 const picturesContainer = document.querySelector('.pictures');
-
-const getRandomPictures = () => {
-  const randomPictures = [];
-  const randomIndexes = [];
-
-  while (randomPictures.length < RANDOM_PICTURES_NUMBER) {
-    const currentIndex = getRandomInteger(0, picturesData.length - 1);
-    if (randomIndexes.includes(currentIndex)) {
-      continue;
-    }
-    randomPictures.push(picturesData[currentIndex]);
-    randomIndexes.push(currentIndex);
-  }
-  return randomPictures;
-};
-
-const getSortedByCommentsPictures = () => {
-  const sortedComments = picturesData.slice().sort((a, b) => b.comments.length - a.comments.length);
-  return sortedComments;
-};
 
 const activateButton = (button) => {
   button.classList.add('img-filters__button--active');
@@ -39,16 +20,6 @@ const inactivateButtons = () => {
   });
 };
 
-const renderDefaultPictures = () => {
-  try {
-    renderPictures(picturesData);
-    const sortingButtonsSection = document.querySelector('.img-filters');
-    sortingButtonsSection.classList.remove('img-filters--inactive');
-  } catch (err) {
-    return true;
-  }
-};
-
 const removeSmallPicturesEventListeners = () => {
   picturesContainer.removeEventListener('click', showMatchedPicture);
 };
@@ -58,13 +29,12 @@ const renderFilteredPictures = () => {
   removeSmallPicturesEventListeners();
 
   if (activeSortButtonId === 'filter-random') {
-    renderPictures(getRandomPictures());
+    renderPictures(getRandomPictures(picturesData));
   } else if (activeSortButtonId === 'filter-discussed') {
-    renderPictures(getSortedByCommentsPictures());
+    renderPictures(getSortedByCommentsPictures(picturesData));
   } else {
-    renderDefaultPictures();
+    renderPictures(getDefaultPictures());
   }
-
 };
 
 const debouncePicturesRendering = debounce(renderFilteredPictures, RERENDER_DELAY);
@@ -79,4 +49,4 @@ const setSortButtonsEventListeners = () => {
   });
 };
 
-export { setSortButtonsEventListeners, renderDefaultPictures };
+export { setSortButtonsEventListeners, renderFilteredPictures, RANDOM_PICTURES_NUMBER };
