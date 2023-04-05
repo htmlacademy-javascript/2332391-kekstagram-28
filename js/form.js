@@ -1,7 +1,8 @@
-/* eslint-disable no-use-before-define */
+
 import { resetScale, setScaleEventListeners } from './scale.js';
 import { resetEffects, hideSlider } from './effects.js';
-import { showErrorModal, showSuccessModal, sendData } from './api.js';
+import { onFormEscKeydown, onUploadInputChange } from './modal-handlers.js';
+import { sendData, showErrorModal, showSuccessModal } from './api.js';
 
 const body = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -48,39 +49,7 @@ pristine.addValidator(
   HASHTAG_ERROR_MESSAGE
 );
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  if (! pristine.validate(hashtagsField) || ! pristine.validate(commentField)) {
-    return;
-  }
-  uploadSubmit.disabled = true;
-  sendData(new FormData(evt.target))
-    .then(showSuccessModal)
-    .then(hideModal)
-    .catch(showErrorModal)
-    .catch(disable);
-};
-
 const disable = () => {
-  uploadSubmit.disabled = false;
-};
-
-const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
-
-const onFormEscKeydown = (evt) => {
-  const errorModal = document.querySelector('.error');
-  if(evt.key === 'Escape' && ! isTextFieldFocused() && errorModal.classList.contains('hidden')) {
-    evt.preventDefault();
-    hideModal();
-  }
-};
-
-const showModal = () => {
-  uploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onFormEscKeydown);
-  uploadCloseButton.addEventListener('click', hideModal);
-  setScaleEventListeners();
   uploadSubmit.disabled = false;
 };
 
@@ -95,6 +64,17 @@ const hideModal = () => {
   document.removeEventListener('keydown', onFormEscKeydown);
 };
 
+const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
+
+const showModal = () => {
+  uploadOverlay.classList.remove('hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onFormEscKeydown);
+  uploadCloseButton.addEventListener('click', hideModal);
+  setScaleEventListeners();
+  uploadSubmit.disabled = false;
+};
+
 const changeImapePreview = () => {
   const file = uploadInput.files[0];
   imagePreview.src = URL.createObjectURL(file);
@@ -103,13 +83,17 @@ const changeImapePreview = () => {
   });
 };
 
-const changeEffectsItems = () => {
-};
-
-const onUploadInputChange = () => {
-  showModal();
-  changeImapePreview();
-  changeEffectsItems();
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+  if (!pristine.validate(hashtagsField) || !pristine.validate(commentField)) {
+    return;
+  }
+  uploadSubmit.disabled = true;
+  sendData(new FormData(evt.target))
+    .then(showSuccessModal)
+    .then(hideModal)
+    .catch(showErrorModal)
+    .catch(disable);
 };
 
 const setFormEventListeners = () => {
@@ -117,4 +101,4 @@ const setFormEventListeners = () => {
   form.addEventListener('submit', onFormSubmit);
 };
 
-export { setFormEventListeners };
+export { setFormEventListeners, isTextFieldFocused, changeImapePreview, showModal, hideModal };

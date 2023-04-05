@@ -1,15 +1,17 @@
-/* eslint-disable no-use-before-define */
-import { isEscPressed, showAlert } from './util.js';
+import { showAlert } from './util.js';
+import { onSuccessBodyClick, onSuccessModalEscKeydown, onErrorModalEscKeydown, onErrorBodyClick } from './modal-handlers.js';
 
 const BASE_URL = 'https://28.javascript.pages.academy/kekstagram';
 const Route = {
   GET_DATA: '/data',
   SEND_DATA: '/'
 };
+
 const Method = {
   GET: 'GET',
   POST: 'POST'
 };
+
 const ErrorText = {
   GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
   SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз'
@@ -47,6 +49,19 @@ const createErrorModal = () => {
   document.body.append(modal);
 };
 
+const hideSuccessModal = () => {
+  const modal = document.querySelector('.success');
+  modal.classList.add('hidden');
+  document.removeEventListener('click', onSuccessBodyClick);
+};
+
+const hideErrorModal = () => {
+  const modal = document.querySelector('.error');
+  modal.classList.add('hidden');
+  uploadSubmit.disabled = false;
+  document.removeEventListener('click', onErrorBodyClick);
+};
+
 const showSuccessModal = () => {
   const modal = document.querySelector('.success');
   modal.classList.remove('hidden');
@@ -65,48 +80,7 @@ const showErrorModal = () => {
   document.addEventListener('click', onErrorBodyClick);
 };
 
-const hideSuccessModal = () => {
-  const modal = document.querySelector('.success');
-  modal.classList.add('hidden');
-  document.removeEventListener('click', onSuccessBodyClick);
-};
-
-const hideErrorModal = () => {
-  const modal = document.querySelector('.error');
-  modal.classList.add('hidden');
-  uploadSubmit.disabled = false;
-  document.removeEventListener('click', onErrorBodyClick);
-};
-
-const onErrorModalEscKeydown = (evt) => {
-  if (isEscPressed(evt)) {
-    evt.preventDefault();
-    hideErrorModal();
-  }
-};
-
-const onSuccessModalEscKeydown = (evt) => {
-  if (isEscPressed(evt)) {
-    evt.preventDefault();
-    hideSuccessModal();
-  }
-};
-
-const onSuccessBodyClick = (evt) => {
-  if (! evt.target.classList.contains('success__inner') && ! evt.target.classList.contains('success__title')) {
-    evt.preventDefault();
-    hideSuccessModal();
-  }
-};
-
-const onErrorBodyClick = (evt) => {
-  if (! evt.target.classList.contains('error__inner') && ! evt.target.classList.contains('error__title')) {
-    evt.preventDefault();
-    hideErrorModal();
-  }
-};
-
 createSuccessModal();
 createErrorModal();
 
-export { getData, sendData, showSuccessModal, showErrorModal };
+export { getData, sendData, showSuccessModal, showErrorModal, hideErrorModal, hideSuccessModal };
