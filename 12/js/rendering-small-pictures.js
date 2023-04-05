@@ -1,5 +1,4 @@
 import { showBigImage } from './big-picture.js';
-//вот это надо убрать, данные передаём в main и там отрисовываем
 import { picturesData } from './get-data.js';
 
 const picturesContainer = document.querySelector('.pictures');

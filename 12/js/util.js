@@ -12,9 +12,10 @@ const showAlert = (message) => {
   alert.style.top = '0';
   alert.style.right = '0';
   alert.style.padding = '10px 3px';
-  alert.style.fontSize = '30px';
+  alert.style.fontSize = '20px';
   alert.style.textAlign = 'center';
   alert.style.backgroundColor = 'red';
+  alert.style.height = '10%';
   alert.textContent = message;
   document.body.append(alert);
 
