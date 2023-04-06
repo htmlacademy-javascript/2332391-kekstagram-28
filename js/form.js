@@ -4,6 +4,10 @@ import { resetEffects, hideSlider } from './effects.js';
 import { onFormEscKeydown, onUploadInputChange } from './modal-handlers.js';
 import { sendData, showErrorModal, showSuccessModal } from './api.js';
 
+const HASHTAG_ERROR_MESSAGE = 'Неправильно заполнено поле хэштэгов!';
+const HASHTAGS_MAX_NUMBER = 5;
+const HASHTAG_SYMBOLS_CHECK = /^#[a-zа-яё0-9]{1,19}$/i;
+
 const body = document.querySelector('body');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadCloseButton = document.querySelector('.img-upload__cancel');
@@ -16,17 +20,13 @@ const imagePreview = document.querySelector('.img-upload__preview img');
 const effectsList = document.querySelector('.effects__list');
 const effectsItems = effectsList.querySelectorAll('.effects__preview');
 
-const HASHTAG_ERROR_MESSAGE = 'Неправильно заполнено поле хэштэгов!';
-
 const pristine = new Pristine (form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper__error'
 });
 
-const HASHTAG_SYMBOLS_CHECK = /^#[a-zа-яё0-9]{1,19}$/i;
-
-const hasValidHashtagsCount = (hashtags) => hashtags.length <= 5;
+const hasValidHashtagsCount = (hashtags) => hashtags.length <= HASHTAGS_MAX_NUMBER;
 
 const hasUniqueTags = (hastags) => {
   const lowerCaseHashtags = hastags.map((hashtag) => hashtag.toLowerCase());
@@ -40,7 +40,7 @@ const validateHashtags = (value) => {
     .trim()
     .split(' ')
     .filter(Boolean);
-  return hasValidHashtagsCount(hashtags) && hasUniqueTags && hashtags.every(isValidHashtag);
+  return hasValidHashtagsCount(hashtags) && hasUniqueTags(hashtags) && hashtags.every(isValidHashtag);
 };
 
 pristine.addValidator(
