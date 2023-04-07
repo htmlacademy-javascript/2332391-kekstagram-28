@@ -68,8 +68,6 @@ const hideSlider = () => {
   sliderContainerElement.classList.add('hidden');
 };
 
-hideSlider();
-
 const updateSlider = () => {
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -88,7 +86,7 @@ const onEffectsChange = (evt) => {
   }
   chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
   imagePreviewElement.className = `effects__preview--${chosenEffect.name}`;
-  if (evt.target.value === 'none') {
+  if (evt.target.value === DEFAULT_EFFECT.name) {
     hideSlider();
   } else {
     showSlider();
@@ -123,4 +121,4 @@ const resetEffects = () => {
   updateSlider();
 };
 
-export { resetEffects };
+export { resetEffects, hideSlider };
