@@ -2,15 +2,7 @@ import { getData } from './api.js';
 import { showAlert, getRandomInteger } from './util.js';
 import { RANDOM_PICTURES_NUMBER } from './filter.js';
 
-const getPicturesData = async () => {
-  try {
-    return await getData();
-  } catch (err) {
-    showAlert(err);
-  }
-};
-
-const picturesData = await getPicturesData();
+const picturesData = await getData().catch(showAlert);
 
 const getDefaultPictures = () => picturesData;
 

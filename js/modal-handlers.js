@@ -1,6 +1,6 @@
 import { hideSuccessModal, hideErrorModal } from './api.js';
 import { hideBigImage } from './big-picture.js';
-import { isTextFieldFocused, changeImapePreview, hideModal, showModal } from './form.js';
+import { isTextFieldFocused, changeImagePreview, hideModal, showModal } from './form.js';
 import { isEscPressed } from './util.js';
 
 const onSuccessBodyClick = (evt) => {
@@ -27,8 +27,7 @@ const onFormEscKeydown = (evt) => {
 
 const onUploadInputChange = () => {
   showModal();
-  changeImapePreview();
-  // changeEffectsItems();
+  changeImagePreview();
 };
 
 const onPopupEscKeydown = (evt) => {

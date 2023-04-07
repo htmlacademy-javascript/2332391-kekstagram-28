@@ -29,7 +29,7 @@ const showMatchedPicture = (evt) => {
 };
 
 const renderPictures = (data) => {
-  if (!data) {
+  if (!data?.length) {
     return;
   }
   const pictures = document.querySelectorAll('.pictures .picture');
