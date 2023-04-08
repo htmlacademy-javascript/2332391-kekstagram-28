@@ -6,8 +6,8 @@ const EXTRA_COMMENTS_NUMBER = 5;
 const commentsListElement = document.querySelector('.social__comments');
 const commentsLoaderElement = document.querySelector('.social__comments-loader');
 const commentsNumberElement = document.querySelector('.social__comment-count');
-const bigPicture = document.querySelector('.big-picture');
-const bigImageCrossButton = document.querySelector('.big-picture__cancel');
+const bigPictureElement = document.querySelector('.big-picture');
+const bigImageCrossButtonElement = document.querySelector('.big-picture__cancel');
 const body = document.querySelector('body');
 let commentsAccumulator = COMMENTS_NUMBER;
 let pictureComments;
@@ -87,17 +87,17 @@ const renderComments = (comments) => {
 };
 
 const destructurizePictureDetails = ({ url, likes, description, comments }) => {
-  const bigPictureInage = bigPicture.querySelector('.big-picture__img img');
+  const bigPictureInage = bigPictureElement.querySelector('.big-picture__img img');
   bigPictureInage.src = url;
   bigPictureInage.alt = description;
-  bigPicture.querySelector('.likes-count').textContent = likes;
-  bigPicture.querySelector('.social__caption').textContent = description;
+  bigPictureElement.querySelector('.likes-count').textContent = likes;
+  bigPictureElement.querySelector('.social__caption').textContent = description;
 
   renderComments(comments);
 };
 
 const hideBigImage = () => {
-  bigPicture.classList.add('hidden');
+  bigPictureElement.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onPopupEscKeydown);
   commentsAccumulator = COMMENTS_NUMBER;
@@ -105,11 +105,11 @@ const hideBigImage = () => {
 };
 
 const showBigImage = (data) => {
-  bigPicture.classList.remove('hidden');
+  bigPictureElement.classList.remove('hidden');
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onPopupEscKeydown);
-  bigImageCrossButton.addEventListener('click', hideBigImage);
+  bigImageCrossButtonElement.addEventListener('click', hideBigImage);
   destructurizePictureDetails(data);
 };
 

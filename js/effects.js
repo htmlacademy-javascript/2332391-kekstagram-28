@@ -80,7 +80,6 @@ const updateSlider = () => {
 };
 
 const onEffectsChange = (evt) => {
-
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
@@ -96,7 +95,6 @@ const onEffectsChange = (evt) => {
 
 const onSliderUpdate = () => {
   const sliderValue = sliderElement.noUiSlider.get();
-
   imagePreviewElement.style.filter = isDefaultEffect()
     ? DEFAULT_EFFECT.style
     : `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
