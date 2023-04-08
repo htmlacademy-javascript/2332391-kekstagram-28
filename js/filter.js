@@ -6,22 +6,22 @@ import { picturesData } from './get-data.js';
 const RANDOM_PICTURES_NUMBER = 10;
 const RERENDER_DELAY = 500;
 
-const sortButtons = document.querySelectorAll('.img-filters__button');
-const imageSortButtonsSection = document.querySelector('.img-filters');
-const picturesContainer = document.querySelector('.pictures');
+const sortButtonsElements = document.querySelectorAll('.img-filters__button');
+const imageSortButtonsSectionElement = document.querySelector('.img-filters');
+const picturesContainerElement = document.querySelector('.pictures');
 
 const activateButton = (button) => {
   button.classList.add('img-filters__button--active');
 };
 
 const inactivateButtons = () => {
-  sortButtons.forEach((button) => {
+  sortButtonsElements.forEach((button) => {
     button.classList.remove('img-filters__button--active');
   });
 };
 
 const removeSmallPicturesEventListeners = () => {
-  picturesContainer.removeEventListener('click', showMatchedPicture);
+  picturesContainerElement.removeEventListener('click', showMatchedPicture);
 };
 
 const renderFilteredPictures = () => {
@@ -40,7 +40,7 @@ const renderFilteredPictures = () => {
 const debouncePicturesRendering = debounce(renderFilteredPictures, RERENDER_DELAY);
 
 const setSortButtonsEventListeners = () => {
-  imageSortButtonsSection.addEventListener('click', (evt) => {
+  imageSortButtonsSectionElement.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('img-filters__button') && !evt.target.classList.contains('img-filters__button--active')) {
       inactivateButtons();
       activateButton(evt.target);

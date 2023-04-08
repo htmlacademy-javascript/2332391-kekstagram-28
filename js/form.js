@@ -2,23 +2,23 @@
 import { resetScale, setScaleEventListeners } from './scale.js';
 import { resetEffects, hideSlider } from './effects.js';
 import { onFormEscKeydown, onUploadInputChange } from './modal-handlers.js';
-import { sendData, showErrorModal, showSuccessModal } from './api.js';
+import { sendData, showErrorModalElement, showSuccessModalElement } from './api.js';
 
 const HASHTAG_ERROR_MESSAGE = 'Неправильно заполнено поле хэштэгов!';
 const HASHTAGS_MAX_NUMBER = 5;
 const HASHTAG_SYMBOLS_CHECK = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const body = document.querySelector('body');
-const uploadOverlay = document.querySelector('.img-upload__overlay');
+const uploadOverlayElement = document.querySelector('.img-upload__overlay');
 const uploadCloseButtonElement = document.querySelector('.img-upload__cancel');
 const uploadInputElement = document.querySelector('.img-upload__input');
 const uploadSubmitElement = document.querySelector('.img-upload__submit');
 const formElement = document.querySelector('.img-upload__form');
-const hashtagsField = document.querySelector('.text__hashtags');
-const commentField = document.querySelector('.text__description');
-const imagePreview = document.querySelector('.img-upload__preview img');
-const effectsList = document.querySelector('.effects__list');
-const effectsItems = effectsList.querySelectorAll('.effects__preview');
+const hashtagsFieldElement = document.querySelector('.text__hashtags');
+const commentFieldElement = document.querySelector('.text__description');
+const imagePreviewElement = document.querySelector('.img-upload__preview img');
+const effectsListElement = document.querySelector('.effects__list');
+const effectsItemsElements = effectsListElement.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine (formElement, {
   classTo: 'img-upload__field-wrapper',
@@ -44,7 +44,7 @@ const validateHashtags = (value) => {
 };
 
 pristine.addValidator(
-  hashtagsField,
+  hashtagsFieldElement,
   validateHashtags,
   HASHTAG_ERROR_MESSAGE
 );
@@ -59,16 +59,16 @@ const hideModal = () => {
   resetEffects();
   hideSlider();
   resetScale();
-  uploadOverlay.classList.add('hidden');
+  uploadOverlayElement.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onFormEscKeydown);
 };
 
-const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
+const isTextFieldFocused = () => document.activeElement === hashtagsFieldElement || document.activeElement === commentFieldElement;
 
 const showModal = () => {
   resetScale();
-  uploadOverlay.classList.remove('hidden');
+  uploadOverlayElement.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onFormEscKeydown);
   uploadCloseButtonElement.addEventListener('click', hideModal);
@@ -78,22 +78,22 @@ const showModal = () => {
 
 const changeImagePreview = () => {
   const file = uploadInputElement.files[0];
-  imagePreview.src = URL.createObjectURL(file);
-  effectsItems.forEach((elem) => {
-    elem.style.backgroundImage = `url(${imagePreview.src})`;
+  imagePreviewElement.src = URL.createObjectURL(file);
+  effectsItemsElements.forEach((elem) => {
+    elem.style.backgroundImage = `url(${imagePreviewElement.src})`;
   });
 };
 
 const onFormSubmit = (evt) => {
   evt.preventDefault();
-  if (!pristine.validate(hashtagsField) || !pristine.validate(commentField)) {
+  if (!pristine.validate(hashtagsFieldElement) || !pristine.validate(commentFieldElement)) {
     return;
   }
   uploadSubmitElement.disabled = true;
   sendData(new FormData(evt.target))
-    .then(showSuccessModal)
+    .then(showSuccessModalElement)
     .then(hideModal)
-    .catch(showErrorModal)
+    .catch(showErrorModalElement)
     .catch(disable);
 };
 
